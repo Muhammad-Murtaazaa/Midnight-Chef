@@ -6,16 +6,14 @@ const Form = () => {
   const listofIngredients = ingredients.map((ingredient, index) => {
     return <li key={index}>{ingredient}</li>
   });
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget)
+  const handleSubmit = (formData) => {
     const newIngredient = formData.get("ingredient")
     setIngredients((prevIngredients) => [...prevIngredients, newIngredient])
   }
 
   return (
     <main>
-        <form onSubmit={handleSubmit}>
+        <form action={handleSubmit}>
             <input type="text" name="ingredient" placeholder='Add Ingredients' aria-label='Add Ingredients' />
             <button type="submit">Add Ingredients</button>
             </form>
