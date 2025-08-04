@@ -1,6 +1,6 @@
 import React from 'react'
 import './Form.css'
-import receipe from './receipe.jsx'
+import Receipe from './receipe.jsx'
 const Form = () => {
 
   const [ingredients, setIngredients] = React.useState([]);
@@ -32,7 +32,7 @@ const Form = () => {
                     <button onClick={() => setRecipesShown(prev => !prev)}>Get a recipe</button>
                 </div>}
                 <section>
-    { recipeshown && <receipe /> }
+    { recipeshown && <Receipe /> }
 </section>
             </section>
     </main>
