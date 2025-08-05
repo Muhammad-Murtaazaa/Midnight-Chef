@@ -1,6 +1,7 @@
 import React from 'react'
 import './Form.css'
 import Receipe from './receipe.jsx'
+import { getRecipeFromChefClaude, getRecipeFromMistral } from "./AI.js"
 const Form = () => {
 
   const [ingredients, setIngredients] = React.useState([]);
