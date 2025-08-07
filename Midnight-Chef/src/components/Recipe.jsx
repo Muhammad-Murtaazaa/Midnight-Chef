@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { marked } from 'marked';
-
+import './Recipe.css';
 const Recipe = ({ recipe }) => {
   useEffect(() => {
     console.log("Recipe component mounted with recipe:");

@@ -1,0 +1,15 @@
+.loader {
+  margin-top: 20px;
+  padding: 15px;
+  font-weight: bold;
+  color: #c0392b;
+  font-size: 1.2rem;
+  text-align: center;
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
