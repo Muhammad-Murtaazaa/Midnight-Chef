@@ -1,15 +1,32 @@
 .loader {
   margin-top: 20px;
-  padding: 15px;
+  padding: 15px 20px;
   font-weight: bold;
   color: #c0392b;
   font-size: 1.2rem;
   text-align: center;
+  background-color: #fff3f0;
+  border: 2px solid #f5c6cb;
+  border-radius: 8px;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   animation: pulse 1.2s infinite ease-in-out;
+  transition: all 0.3s ease;
 }
 
+/* Pulse animation */
 @keyframes pulse {
-  0% { opacity: 0.4; }
-  50% { opacity: 1; }
-  100% { opacity: 0.4; }
+  0% { opacity: 0.5; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.5; transform: scale(0.98); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .loader {
+    font-size: 1rem;
+    padding: 12px 15px;
+  }
 }
