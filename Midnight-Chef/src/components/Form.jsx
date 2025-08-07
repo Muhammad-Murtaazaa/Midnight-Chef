@@ -1,8 +1,29 @@
+// src/components/Form.jsx
 import React from 'react';
 import './Form.css';
-import Recipe from './Recipe.jsx';
+import ReactMarkdown from 'react-markdown';
 import ChefLoader from './Loader.jsx';
 import ResetButton from './ResetButton.jsx';
+
+function Recipe({ recipe }) {
+  let content = recipe;
+
+  // Try to parse if it's JSON (from backend)
+  try {
+    const json = JSON.parse(recipe);
+    if (json.recipe) {
+      content = json.recipe;
+    }
+  } catch (e) {
+    // if it's not JSON, fallback to plain markdown string
+  }
+
+  return (
+    <div className="recipe-markdown">
+      <ReactMarkdown>{content}</ReactMarkdown>
+    </div>
+  );
+}
 
 const Form = () => {
   const [ingredients, setIngredients] = React.useState([]);
@@ -33,30 +54,29 @@ const Form = () => {
   const handleGenerateRecipe = async () => {
     console.log("👨‍🍳 Generating recipe for:", ingredients);
     setLoading(true);
-    setRecipeShown(""); // Clear any previous recipe
+    setRecipeShown("");
 
-   try {
-  const response = await fetch("http://localhost:5000/api/recipe", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ ingredients }),
-  });
+    try {
+      const response = await fetch("https://chef-backend-one.vercel.app/api/recipe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ingredients }),
+      });
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch recipe");
-  }
+      if (!response.ok) {
+        throw new Error("Failed to fetch recipe");
+      }
 
-  const data = await response.text(); // assuming your API returns markdown as plain text
-  console.log("📦 Recipe received");
-  setRecipeShown(data);
-} catch (error) {
-  console.error("❌ Error generating recipe:", error);
-} finally {
-  setLoading(false);
-}
-
+      const data = await response.text();
+      console.log("📦 Recipe received");
+      setRecipeShown(data);
+    } catch (error) {
+      console.error("❌ Error generating recipe:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleResetAll = () => {
@@ -68,7 +88,14 @@ const Form = () => {
 
   return (
     <main className="form-container">
-      <form action={handleSubmit} className="input-form">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(new FormData(e.target));
+          e.target.reset();
+        }}
+        className="input-form"
+      >
         <input
           type="text"
           name="ingredient"

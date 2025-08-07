@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { marked } from 'marked';
+import ReactMarkdown from "react-markdown";
 import './Recipe.css';
 const Recipe = ({ recipe }) => {
   useEffect(() => {
@@ -10,7 +10,8 @@ const Recipe = ({ recipe }) => {
   return (
     <div className="recipe-output">
       <h2>Your Recipe</h2>
-      <div dangerouslySetInnerHTML={{ __html: marked.parse(recipe) }} />
+      <p>Here's a delicious recipe based on your ingredients:</p>
+        <ReactMarkdown>{recipe}</ReactMarkdown>
     </div>
   );
 };
