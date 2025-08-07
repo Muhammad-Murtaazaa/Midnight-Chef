@@ -2,7 +2,7 @@ import React from 'react';
 import './Form.css';
 import Recipe from './Recipe.jsx';
 import ChefLoader from './Loader.jsx';
-import { getRecipeFromLlama3 } from './AI.js';
+import ResetButton from './ResetButton.jsx';
 
 const Form = () => {
   const [ingredients, setIngredients] = React.useState([]);
@@ -35,15 +35,35 @@ const Form = () => {
     setLoading(true);
     setRecipeShown(""); // Clear any previous recipe
 
-    try {
-      const recipeMarkdown = await getRecipeFromLlama3(ingredients);
-      console.log("📦 Recipe received");
-      setRecipeShown(recipeMarkdown);
-    } catch (error) {
-      console.error("❌ Error generating recipe:", error);
-    } finally {
-      setLoading(false);
-    }
+   try {
+  const response = await fetch("http://localhost:5000/api/recipe", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ingredients }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch recipe");
+  }
+
+  const data = await response.text(); // assuming your API returns markdown as plain text
+  console.log("📦 Recipe received");
+  setRecipeShown(data);
+} catch (error) {
+  console.error("❌ Error generating recipe:", error);
+} finally {
+  setLoading(false);
+}
+
+  };
+
+  const handleResetAll = () => {
+    console.log("🔄 Resetting everything");
+    setIngredients([]);
+    setRecipeShown("");
+    setLoading(false);
   };
 
   return (
@@ -64,7 +84,7 @@ const Form = () => {
           {listofIngredients.length > 0 ? listofIngredients : <li>No ingredients added yet</li>}
         </ul>
 
-        {listofIngredients.length > 3 && (
+        {listofIngredients.length > 3 && !recipeShown && (
           <div className="get-recipe-container">
             <div>
               <h3>Ready for a recipe?</h3>
@@ -78,7 +98,12 @@ const Form = () => {
 
         <section className="recipe-output-section">
           {loading && <ChefLoader />}
-          {!loading && recipeShown && <Recipe recipe={recipeShown} />}
+          {!loading && recipeShown && (
+            <>
+              <Recipe recipe={recipeShown} />
+              <ResetButton onReset={handleResetAll} />
+            </>
+          )}
         </section>
       </section>
     </main>
