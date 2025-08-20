@@ -14,7 +14,7 @@ function Recipe({ recipe }) {
     if (json.recipe) {
       content = json.recipe;
     }
-  } catch (e) {
+  } catch {
     // if it's not JSON, fallback to plain markdown string
   }
 
@@ -31,7 +31,18 @@ const Form = () => {
   const [loading, setLoading] = React.useState(false);
 
   const listofIngredients = ingredients.map((ingredient, index) => (
-    <li key={index}>{ingredient}</li>
+    <li key={index}>
+      <span>{ingredient}</span>
+      <button 
+        type="button"
+        className="delete-ingredient-btn"
+        onClick={() => handleDeleteIngredient(index)}
+        aria-label={`Remove ${ingredient}`}
+        title={`Remove ${ingredient}`}
+      >
+        ❌
+      </button>
+    </li>
   ));
 
   const handleSubmit = (formData) => {
@@ -77,6 +88,11 @@ const Form = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDeleteIngredient = (indexToDelete) => {
+    setIngredients(prev => prev.filter((_, index) => index !== indexToDelete));
+    console.log("🗑️ Ingredient removed at index:", indexToDelete);
   };
 
   const handleResetAll = () => {

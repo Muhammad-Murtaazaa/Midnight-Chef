@@ -4,7 +4,7 @@ import './Loader.css';
 const Loader = () => {
   return (
     <div className="loader">
-      👨‍🍳 Chef is thinking... Crafting your recipe...
+      🧑‍🍳 Your personal chef is crafting something delicious...
     </div>
   );
 };

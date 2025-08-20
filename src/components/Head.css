@@ -9,30 +9,69 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  background-color: #1e1e2f;
-  color: #fff;
-  padding: 1.2rem 2rem;
-  border-bottom: 3px solid #ff9800;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  gap: 1.5rem;
+  background: var(--dark-gradient);
+  color: var(--text-light);
+  padding: 2rem 2rem;
+  border-bottom: none;
+  box-shadow: var(--shadow-strong);
+  backdrop-filter: blur(10px);
+  border-bottom: 3px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+
+/* Modern accent line */
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-gradient);
 }
 
 header img {
-  width: 60px;
+  width: 70px;
   height: auto;
   object-fit: contain;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 header img:hover {
-  transform: rotate(-5deg) scale(1.05);
+  transform: rotate(-8deg) scale(1.1);
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
 }
 
 header h1 {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: var(--accent-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+/* Animated underline effect */
+header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--secondary-gradient);
+  transition: width 0.6s ease;
+}
+
+header:hover h1::after {
+  width: 100%;
 }
 
 /* Mobile responsiveness */
@@ -40,14 +79,16 @@ header h1 {
   header {
     flex-direction: column;
     text-align: center;
-    padding: 1rem;
+    padding: 1.5rem 1rem;
+    gap: 1rem;
   }
 
   header h1 {
-    font-size: 1.6rem;
+    font-size: 2rem;
+    letter-spacing: 1px;
   }
 
   header img {
-    width: 50px;
+    width: 60px;
   }
 }
