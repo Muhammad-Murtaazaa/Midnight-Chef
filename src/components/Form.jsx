@@ -14,7 +14,7 @@ function Recipe({ recipe }) {
     if (json.recipe) {
       content = json.recipe;
     }
-  } catch (e) {
+  } catch {
     // if it's not JSON, fallback to plain markdown string
   }
 
